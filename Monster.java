@@ -8,6 +8,7 @@ import javax.swing.JComponent;
 
 public class Monster{
 	
+	public Draw comp;
 	public int xPos = 150;
 	public int yPos = 300;
 	public int width = 0;
@@ -16,6 +17,7 @@ public class Monster{
 	public boolean idle = true;
 	public boolean alive = true;
 	public boolean contact = false;
+	public int exp = 1;
 
 	public BufferedImage image;
 	public URL resource = getClass().getResource("slime/idle0.png");
@@ -105,7 +107,7 @@ public class Monster{
 		if(alive){
 			Thread monThread = new Thread(new Runnable(){
 				public void run(){
-					for(int ctr = 0; ctr < 4; ctr++){
+					for(int ctr = 0; ctr < 5; ctr++){
 						try {					
 							resource = getClass().getResource("slime/die"+ctr+".png");
 							
@@ -127,4 +129,5 @@ public class Monster{
 		}
 		alive = false;
 	}
+	
 }
