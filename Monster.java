@@ -18,6 +18,8 @@ public class Monster{
 	public boolean alive = true;
 	public boolean contact = false;
 	public int exp = 1;
+	public int dmg = 5;
+	public int potion = 1;
 
 	public BufferedImage image;
 	public URL resource = getClass().getResource("slime/idle0.png");

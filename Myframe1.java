@@ -38,6 +38,11 @@ public class MyFrame1 extends JFrame implements KeyListener{
 		else if(e.getKeyCode() == KeyEvent.VK_S){
 			drawing.spawnEnemy();
 		}
+		else if(e.getKeyCode() == KeyEvent.VK_H){
+			drawing.hero1.heal();
+			System.out.println("heal");
+			
+		}
 	}
 
 	public void keyReleased(KeyEvent e){

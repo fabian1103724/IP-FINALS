@@ -13,6 +13,8 @@ public class Draw extends JComponent{
 
 	public BufferedImage image;
 	public BufferedImage backgroundImage;
+	public BufferedImage gameover;
+	public BufferedImage potion;
 	public URL resource = getClass().getResource("run0.png");
 
 	
@@ -32,7 +34,7 @@ public class Draw extends JComponent{
 
 	// enemy
 	public int enemyCount;
-	Monster[] monsters = new Monster[10];
+	Monster[] monsters = new Monster[20];
 	
 		
 	
@@ -45,6 +47,8 @@ public class Draw extends JComponent{
 		try{
 			image = ImageIO.read(resource);
 			backgroundImage = ImageIO.read(getClass().getResource("background.jpg"));
+			gameover = ImageIO.read(getClass().getResource("gameover.jpg"));
+			potion = ImageIO.read(getClass().getResource("potion.jpg"));
 		}
 		catch(IOException e){
 			e.printStackTrace();
@@ -147,8 +151,10 @@ public class Draw extends JComponent{
 				
 				g.setColor(Color.BLACK);
 				g.fillRect(0, 480, 600, 100);
+				
 				g.setColor(Color.GREEN);
 				g.fillRect(0, 500, hero1.life, 10);
+	
 				g.setColor(Color.WHITE);
 				g.drawString("Hero Life",0,495);
 
@@ -157,32 +163,31 @@ public class Draw extends JComponent{
 				g.setColor(Color.WHITE);
 				g.drawString("Items",245,500);
 
-
-				g.setColor(Color.BLUE);
-				g.fillRect(230, 530, 50, 30);
+				
 				g.setColor(Color.WHITE);
-				g.drawString("Damage "+ hero1.dmg,245,550);
+				g.drawString("damage" + hero1.dmg,hero1.x,hero1.y);
+				g.drawString("lvl" + hero1.exp,hero1.x,hero1.y+10);	
+				g.drawImage(hero1.image, hero1.x, hero1.y, this);
 
-
-
-
-		// character grid for hero
-		// g.setColor(Color.YELLOW);
-		// g.fillRect(x, y, width, height);
-		g.drawImage(hero1.image, hero1.x, hero1.y, this);
-		
+				g.setColor(Color.WHITE);
+				g.drawString("x"+ hero1.potion,330,500);
+				g.drawImage(potion,300,480,30,30, this);
+				g.drawString("press H for heal",360,500);
 
 		for(int c = 0; c < monsters.length; c++){
 			if(monsters[c]!=null){
 				// character grid for monsters
 				//g.fillRect(monsters[c].xPos, monsters[c].yPos+5, monsters[c].width, monsters[c].height);
 				if(monsters[c].life > 0){
-				g.drawImage(monsters[c].image, monsters[c].xPos, monsters[c].yPos, this);
-				g.setColor(Color.GREEN);
-				g.fillRect(monsters[c].xPos+7, monsters[c].yPos,monsters[c].life, 3);
+					g.drawImage(monsters[c].image, monsters[c].xPos, monsters[c].yPos, this);
+					g.setColor(Color.GREEN);
+					g.fillRect(monsters[c].xPos+7, monsters[c].yPos,monsters[c].life, 3);
 				}
-			}
-			
+				
+			}	
+		}
+		if(hero1.life<=0){
+			g.drawImage(gameover,0,0, 600, 600, this);
 		}
 	}
 }

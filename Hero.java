@@ -17,6 +17,7 @@ public class Hero{
 	public boolean contact = false;
 	public int exp = 0;
 	public int dmg = 1;
+	public int potion = 0;
 	
 	
 	public Hero(Draw comp){
@@ -118,9 +119,12 @@ public class Hero{
 						if(comp.monsters[x].contact){
 								if(comp.monsters[x].life > 0){
 								comp.monsters[x].life = comp.monsters[x].life - comp.hero1.dmg;
+								comp.hero1.life = comp.hero1.life - comp.monsters[x].dmg;
 								}
 								else if(comp.monsters[x].life == 0){
 									comp.hero1.dmg = comp.hero1.dmg + comp.monsters[x].exp;
+									comp.hero1.exp = comp.hero1.exp + comp.monsters[x].exp;
+									comp.hero1.potion = comp.hero1.potion + comp.monsters[x].potion;
 								}
 						}
 					}
@@ -130,50 +134,6 @@ public class Hero{
 		thread1.start();
 	}
 	
-	public void attackAnimation1(){
-		Thread thread2 = new Thread(new Runnable(){
-			public void run(){
-				for(int ctr = 4; ctr < 8; ctr++){
-					try {
-						if(ctr==7){
-							resource = getClass().getResource("run10.png");
-						}
-						else{
-							resource = getClass().getResource("attack"+ctr+".png");
-						}
-						
-						try{
-							image = ImageIO.read(resource);
-						}
-						catch(IOException e){
-							e.printStackTrace();
-						}
-				        comp.repaint();
-				        Thread.sleep(100);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-
-
-				for(int x=0; x<comp.monsters.length; x++){
-					if(comp.monsters[x]!=null){
-						if(comp.monsters[x].contact){
-								if(comp.monsters[x].life > 0){
-								comp.monsters[x].life = comp.monsters[x].life - comp.hero1.dmg;
-								}
-								else if(comp.monsters[x].life == 0){
-									comp.monsters[x].life = 0;
-	
-									
-								}
-						}
-					}
-				}
-			}
-		});
-		thread2.start();
-	}
 
 	public void moveUp(){
 		y = y - 5;
@@ -212,8 +172,11 @@ public class Hero{
 		attackAnimation();
 	}
 	
-	public void attack2(){
-		attackAnimation1();
+	public void heal(){
+		if(comp.hero1.potion>0 && comp.hero1.life<200){
+			comp.hero1.life = comp.hero1.life + 50;
+			comp.hero1.potion = comp.hero1.potion - 1;
+		}
 	}
 
 
